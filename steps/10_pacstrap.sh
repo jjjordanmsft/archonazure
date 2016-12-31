@@ -2,11 +2,13 @@
 
 case "$1" in
 	desc)
-		echo Run cloudinit
+		echo Run pacstrap
 		;;
 	build)
+		$DOCKER_EXEC pacstrap -d /mnt base || exit $?
 		;;
 	clean)
+		$DOCKER_EXEC rm -rf /mnt/*
 		;;
 	*)
 		echo Should be invoked by build script!

@@ -7,7 +7,7 @@ case "$1" in
 	build)
 		DOCKER_ID=$(docker run -dt --privileged -v ${WORKDIR}:/work archlinux /bin/bash)
 		echo export DOCKER_ID=${DOCKER_ID} >$STEP_OUT
-		echo export DOCKER_EXEC="docker exec -it ${DOCKER_ID}" >>$STEP_OUT
+		printf "export DOCKER_EXEC=\\\"docker exec -it ${DOCKER_ID}\\\"\n" >>$STEP_OUT
 		;;
 	clean)
 		docker stop ${DOCKER_ID}

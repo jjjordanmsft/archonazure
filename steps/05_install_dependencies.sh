@@ -5,7 +5,7 @@ case "$1" in
 		echo Install dependencies on builder container
 		;;
 	build)
-		$DOCKER_EXEC pacman -S gptfdisk qemu-headless dosfstools e2fsprogs --no-prompt
+		$DOCKER_EXEC pacman -S gptfdisk qemu-headless dosfstools e2fsprogs --noconfirm
 		;;
 	clean)
 		;;

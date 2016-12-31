@@ -2,14 +2,13 @@
 
 case "$1" in
 	desc)
-		echo Fix settings on image
+		echo Mount target partitions
 		;;
 	build)
-		# Fix fstab (currently thinks it's loop!)
-		
-		# Fix kernel parameters
+		$DOCKER_EXEC mount ${LOOP_DEV}p2 /mnt || exit $?
 		;;
 	clean)
+		$DOCKER_EXEC umount ${LOOP_DEV}p2
 		;;
 	*)
 		echo Should be invoked by build script!

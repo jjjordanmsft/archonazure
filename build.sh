@@ -29,7 +29,7 @@ else
 fi
 
 if [ -z "$2" ]; then
-	START_STEP=$REC_STEP
+	START_STEP=$(($REC_STEP + 1))
 else
 	START_STEP=$2
 fi
@@ -37,9 +37,7 @@ fi
 # Install environments in forward-order
 for i in $steps ; {
 	envfile="$WORKDIR/.status/$(step_number $i).env"
-	echo Checking $envfile
 	if [ -e "$envfile" ]; then
-		echo Envfile exists!
 		source $envfile
 	fi
 }
@@ -58,7 +56,7 @@ done
 # Run in forward order
 for i in $steps ; do
 	run_step=$(step_number $i)
-	if (($run_step > $START_STEP)) ; then
+	if (($run_step >= $START_STEP)) ; then
 		echo "====> Executing step $run_step :: $(bash $SCRIPTDIR/steps/$i desc)"
 		export STEP_OUT="$WORKDIR/.status/$run_step.env"
 		cd $WORKDIR

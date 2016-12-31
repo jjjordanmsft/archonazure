@@ -6,9 +6,7 @@ case "$1" in
 		;;
 	build)
 		$DOCKER_EXEC umount ${LOOP_DEV}p2
-		$DOCKER_EXEC umount ${LOOP_DEV}p1
-		
-		losetup -D ${LOOP_DEV}
+		losetup -d ${LOOP_DEV}
 		;;
 	clean)
 		;;

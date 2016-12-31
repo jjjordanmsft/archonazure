@@ -5,10 +5,10 @@ case "$1" in
 		echo Finalize image
 		;;
 	build)
-		$DOCKER_EXEC qemu-img convert -f raw -O vpc -o subformat=fixed,force_size /work/rawdisk /work/ArchLinux-${VERSION}.vhd
+		$DOCKER_EXEC qemu-img convert -f raw -O vpc -o subformat=fixed,force_size /work/rawdisk /work/ArchLinux-${ARCH_VERSION}.vhd
 		;;
 	clean)
-		rm -rf ArchLinux-${VERSION}.vhd
+		rm -rf ArchLinux-${ARCH_VERSION}.vhd
 		;;
 	*)
 		echo Should be invoked by build script!
