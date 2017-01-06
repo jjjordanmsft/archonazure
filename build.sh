@@ -13,6 +13,9 @@ export WORKDIR=$(pwd)
 popd >/dev/null
 pushd $(dirname $0) >/dev/null
 export SCRIPTDIR=$(pwd)
+export STEPSDIR=${SCRIPTDIR}/steps
+export UTILSDIR=${STEPSDIR}/utils
+export UTILDIR=${UTILSDIR}
 
 step_number()
 {
@@ -67,7 +70,7 @@ for i in $steps ; do
 		fi
 		if [ "$result" -ne "0" ]; then
 			echo "====> Step $run_step FAILED with result $result"
-			echo /bin/bash $SCRIPTDIR/steps/$i clean
+			/bin/bash $SCRIPTDIR/steps/$i clean
 			exit $result
 		fi
 		echo $run_step >$WORKDIR/.status/step

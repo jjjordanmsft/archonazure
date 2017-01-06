@@ -9,7 +9,7 @@ rm -rf $KEYRING ${KEYRING}~
 
 # Fetch and trust each root key in a temporary keyring
 for k in $KEYS ; {
-	gpg --no-default-keyring --keyring $KEYRING --keyserver ha.pool.sks-keyservers.net --recv $k || exit $?
+	gpg --no-default-keyring --keyring $KEYRING --keyserver ha.pool.sks-keyservers.net --recv $k
 	echo -e "trust\n5\ny\n" | gpg --no-default-keyring --keyring $KEYRING --command-fd 0 --edit-key $k --yes || exit $?
 }
 
