@@ -7,7 +7,9 @@ case "$1" in
 	build)
 		tstamp=$(date +%Y.%m.01)
 		ARCH_IMG=archlinux-bootstrap-$tstamp-x86_64.tar.gz
-		wget http://archive.archlinux.org/iso/$tstamp/$ARCH_IMG || exit $?
+		curl -o $WORKDIR/$ARCH_IMG https://archive.archlinux.org/iso/$tstamp/$ARCH_IMG || exit $?
+		curl -o $WORKDIR/$ARCH_IMG.sig https://archive.archlinux.org/iso/$tstamp/$ARCH_IMG.sig || exit $?
+		bash $SCRIPTDIR/scripts/util/verify_sig.sh $WORKDIR/$ARCH_IMG.sig || exit $?
 		echo export ARCH_VERSION=${tstamp} >$STEP_OUT
 		echo export ARCH_IMG=${ARCH_IMG} >>$STEP_OUT
 		;;
