@@ -5,7 +5,12 @@ case "$1" in
 		echo Install dependencies on builder container
 		;;
 	build)
-		$DOCKER_EXEC pacman -S gptfdisk qemu-headless dosfstools e2fsprogs --noconfirm
+		if [ ! -z "${REUSE_DOCKER_IMAGE}" ]; then
+			# If not a fresh image, then it might need an update
+			$DOCKER_EXEC pacman -Syu --noconfirm || exit $?
+		fi
+		
+		$DOCKER_EXEC pacman -S gptfdisk qemu-headless dosfstools e2fsprogs git --noconfirm
 		;;
 	clean)
 		;;

@@ -13,7 +13,7 @@ case "$1" in
 		
 		# Set up partition table
 		$DOCKER_EXEC sgdisk -og /work/rawdisk || exit $?
-		ROOT_END=$(sgdisk -E $WORKDIR/rawdisk)
+		ROOT_END=$($DOCKER_EXEC sgdisk -E /work/rawdisk)
 		$DOCKER_EXEC sgdisk -n 1:$BOOT_START:$BOOT_END -c 1:"biosboot" -t 1:ef02 /work/rawdisk || exit $?
 		$DOCKER_EXEC sgdisk -n 2:$ROOT_START:$ROOT_END -c 2:"root" -t 2:8300 /work/rawdisk || exit $?
 		$DOCKER_EXEC sgdisk -p /work/rawdisk || exit $?

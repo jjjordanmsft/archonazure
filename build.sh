@@ -45,6 +45,12 @@ else
 	START_STEP=$2
 fi
 
+if [ -z "$3" ]; then
+	STOP_STEP=9999
+else
+	STOP_STEP=$3
+fi
+
 # Install settings environment
 source $WORKDIR/.status/settings.env
 
@@ -61,7 +67,7 @@ for i in $steps ; {
 # Clean up in reverse order
 for i in $revsteps ; do
 	clean_step=$(step_number $i)
-	if (($clean_step <= $REC_STEP)) && (($clean_step > $START_STEP)) ; then
+	if (($clean_step <= $REC_STEP)) && (($clean_step >= $START_STEP)) ; then
 		echo "====> Cleaning step $clean_step :: $(bash $SCRIPTDIR/steps/$i desc)"
 		/bin/bash $SCRIPTDIR/steps/$i clean
 	fi
@@ -70,7 +76,7 @@ done
 # Run in forward order
 for i in $steps ; do
 	run_step=$(step_number $i)
-	if (($run_step >= $START_STEP)) ; then
+	if (($run_step >= $START_STEP )) && (($run_step <= $STOP_STEP)) ; then
 		echo "====> Executing step $run_step :: $(bash $SCRIPTDIR/steps/$i desc)"
 		export STEP_OUT="$WORKDIR/.status/$run_step.env"
 		cd $WORKDIR

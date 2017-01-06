@@ -2,7 +2,7 @@
 
 case "$1" in
 	desc)
-		echo Finalize image
+		echo Convert image to VHD
 		;;
 	build)
 		$DOCKER_EXEC qemu-img convert -f raw -O vpc -o subformat=fixed,force_size /work/rawdisk /work/ArchLinux-${ARCH_VERSION}.vhd

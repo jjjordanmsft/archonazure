@@ -36,35 +36,20 @@ grub-mkconfig -o /boot/grub/grub.cfg
 cat /etc/default/grub
 
 # Dependencies
-pacman -S openssh wget unzip parted python python-setuptools --noconfirm
+pacman -S openssh wget unzip parted python python-setuptools net-tools util-linux sudo shadow sed grep iproute2 dhclient --noconfirm
 
 # WALinuxAgent
-export WALINUX_VERSION=2.1.5
-wget https://github.com/Azure/WALinuxAgent/archive/v${WALINUX_VERSION}.zip -O /tmp/walinuxagent.zip
-unzip /tmp/walinuxagent.zip -d /opt/walinuxagent
-cd /opt/walinuxagent/WALinuxAgent-${WALINUX_VERSION}/
-python setup.py install --register-service
-
-cat <<-EOF >/etc/systemd/system/walinuxagent.service
-[Unit]
-Description=Azure Linux Agent
-After=network.target
-After=sshd.target
-[Service]
-Type=simple
-ExecStartPre=/bin/bash -c "cat /proc/net/route >> /dev/console || true"
-ExecStartPre=/bin/bash -c "journalctl -u dhcpcd@eth0 >> /dev/console || true"
-ExecStartPre=/bin/bash -c "ip addr >> /dev/console || true"
-ExecStart=/usr/bin/python3 /usr/sbin/waagent -daemon
-Restart=always
-[Install]
-WantedBy=multi-user.target
-EOF
+# source should already be found at /opt/walinuxagent
+cd /opt/walinuxagent
+python setup.py install --prefix="/usr" --optimize=1 || exit $?
 
 # Setup services
 systemctl enable sshd.service
-systemctl enable dhcpcd@eth0.service
-systemctl enable walinuxagent
+systemctl enable dhclient@eth0.service
+systemctl enable waagent
+
+# Setup dhclient
+cp /opt/provision/dhclient.conf /etc/dhclient.conf
 
 # Clean up
 pacman -Scc --noconfirm

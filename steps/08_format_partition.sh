@@ -2,7 +2,7 @@
 
 case "$1" in
 	desc)
-		echo Setup loopback device
+		echo Format partitions
 		;;
 	build)
 		# Format partitions

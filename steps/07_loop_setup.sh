@@ -18,10 +18,11 @@ case "$1" in
 		LOP2MIN=$(stat -c %T ${LOOP_DEV}p2)
 		$DOCKER_EXEC mknod ${LOOP_DEV}p1 b "0x${LOP1MAJ}" "0x${LOP1MIN}"
 		$DOCKER_EXEC mknod ${LOOP_DEV}p2 b "0x${LOP2MAJ}" "0x${LOP2MIN}"
-		
+		true
 		;;
 	clean)
 		losetup -d $LOOP_DEV
+		$DOCKER_EXEC rm -rf ${LOOP_DEV}p1 ${LOOP_DEV}p2
 		;;
 	*)
 		echo Should be invoked by build script!
