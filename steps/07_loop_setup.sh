@@ -9,7 +9,7 @@ case "$1" in
 		LOOP_DEV=$(losetup -f)
 		echo export LOOP_DEV=$LOOP_DEV >$STEP_OUT
 		
-		$DOCKER_EXEC losetup -P $LOOP_DEV $WORKDIR/rawdisk || exit $?
+		$DOCKER_EXEC losetup -P $LOOP_DEV /work/rawdisk || exit $?
 		
 		# Get the loopback partition devices inside the container
 		LOP1MAJ=$(stat -c %t ${LOOP_DEV}p1)
