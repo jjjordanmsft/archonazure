@@ -15,7 +15,7 @@ case "$1" in
 		
 		$DOCKER_EXEC cp -R /work/provision /mnt/opt || exit $?
 		$DOCKER_EXEC /bin/bash -c "chmod 755 /mnt/opt/provision/*.sh" || exit $?
-		$DOCKER_EXEC arch-chroot /mnt /opt/provision/bootstrap.sh || exit $?
+		$DOCKER_EXEC arch-chroot /mnt /opt/provision/configure.sh || exit $?
 		$DOCKER_EXEC /mnt/opt/provision/finalize.sh || exit $?
 		
 		# Remove provisioning scripts
