@@ -6,12 +6,9 @@ case "$1" in
 		;;
 	build)
 		# Do some math...
-		# Boot partition will be 100MB as per standard
-		DISK_SIZE=20480
-		truncate -s${DISK_SIZE}M rawdisk
+		truncate -s${DISK_SIZE:-20480}M rawdisk
 
-		BOOT_START=2048
-		BOOT_END=$((${BOOT_START}+(4*1024))) # 2 MB
+		BOOT_END=$((${BOOT_START:-2048}+(4*1024))) # 2 MB
 		ROOT_START=$((${BOOT_END}+1))
 		
 		# Set up partition table

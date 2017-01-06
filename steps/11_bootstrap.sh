@@ -11,7 +11,7 @@ case "$1" in
 		
 		# Write settings
 		echo export LOOP_DEV=${LOOP_DEV} > provision/settings.sh
-		echo export LANG=en_US.UTF-8 >> provision/settings.sh
+		echo export LANG=${TARGET_LANG} >> provision/settings.sh
 		
 		$DOCKER_EXEC cp -R /work/provision /mnt/opt || exit $?
 		$DOCKER_EXEC /bin/bash -c "chmod 755 /mnt/opt/provision/*.sh" || exit $?

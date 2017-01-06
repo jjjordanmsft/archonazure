@@ -5,8 +5,16 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 
-# Get directories
-mkdir -p $1/.status
+if [ ! -e "$(dirname $0)/settings.env" ]; then
+	echo Must have a settings.env
+	exit 1
+fi
+
+if [ ! -d "$1" ]; then
+	echo Creating work directory $1
+	mkdir -p $1/.status
+	cp $(dirname $0)/settings.env $1/.status/settings.env || exit $?
+fi
 
 pushd $1 >/dev/null
 export WORKDIR=$(pwd)
@@ -36,6 +44,9 @@ if [ -z "$2" ]; then
 else
 	START_STEP=$2
 fi
+
+# Install settings environment
+source $WORKDIR/.status/settings.env
 
 # Install environments in forward-order
 for i in $steps ; {

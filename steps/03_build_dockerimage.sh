@@ -9,7 +9,7 @@ case "$1" in
 		echo Running tar_fix
 		python3 tar_fix.py --input=../${ARCH_IMG} --output=bootstrap.tar.gz || exit $?
 		echo Running docker build
-		docker build -t archlinux . --build-arg architecture=x86_64
+		docker build -t archlinux . --build-arg architecture=${ARCHITECTURE:-x86_64}
 		;;
 	clean)
 		cd archlinux-docker
