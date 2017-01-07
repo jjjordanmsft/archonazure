@@ -21,7 +21,9 @@ case "$1" in
 	clean)
 		cd archlinux-docker
 		rm -rf bootstrap.tar.gz
-		docker rmi archlinux
+		if [ -z "${REUSE_DOCKER_IMAGE}" ]; then
+			docker rmi archlinux
+		fi
 		;;
 	*)
 		echo Should be invoked by build script!

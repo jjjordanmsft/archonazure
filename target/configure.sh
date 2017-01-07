@@ -36,17 +36,25 @@ grub-mkconfig -o /boot/grub/grub.cfg
 cat /etc/default/grub
 
 # Dependencies
-pacman -S openssh wget unzip parted python python-setuptools net-tools util-linux sudo shadow sed grep iproute2 dhclient --noconfirm
+DEPS=(openssh wget unzip parted python python-setuptools net-tools)
+DEPS+=(util-linux sudo shadow sed grep iproute2 dhclient)
+DEPS+=(python2 python2-virtualenv python2-setuptools)
+pacman --noconfirm -S ${DEPS[@]}
 
-# WALinuxAgent
-# source should already be found at /opt/walinuxagent
+# WALinuxAgent, source should already be found at /opt/walinuxagent
 cd /opt/walinuxagent
-python setup.py install --prefix="/usr" --optimize=1 || exit $?
+/usr/bin/python2 setup.py install --prefix="/usr" --optimize=1 --lnx-distro=arch || exit $?
+
+# Create a virtualenv for waagent.  This makes python==python2 so some
+# crufty extensions aren't overwhelmed by python3-by-default
+virtualenv2 -p /usr/bin/python2 --system-site-packages /usr/lib/waagentenv
+sed -i 's|/usr/bin/python|/usr/lib/waagentenv/bin/python|g' /usr/lib/systemd/system/waagent.service
+sed -i 's|/usr/bin/env python|/usr/lib/waagentenv/bin/python|g' /usr/bin/waagent
 
 # Setup services
 systemctl enable sshd.service
 systemctl enable dhclient@eth0.service
-systemctl enable waagent
+systemctl enable waagent.service
 
 # Setup dhclient
 cp /opt/provision/dhclient.conf /etc/dhclient.conf

@@ -8,7 +8,7 @@ case "$1" in
 		$DOCKER_EXEC pacstrap -d /mnt base || exit $?
 		;;
 	clean)
-		$DOCKER_EXEC rm -rf /mnt/*
+		$DOCKER_EXEC rm -rf '/mnt/*'
 		;;
 	*)
 		echo Should be invoked by build script!

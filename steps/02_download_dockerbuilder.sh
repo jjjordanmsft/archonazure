@@ -5,6 +5,7 @@ case "$1" in
 		echo Download Docker image build scripts
 		;;
 	build)
+		rm -rf archlinux-docker
 		git clone https://github.com/czka/archlinux-docker.git
 		;;
 	clean)
