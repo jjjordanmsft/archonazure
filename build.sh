@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 
-if [ ! -e "$(dirname $0)/settings.env" ]; then
+if [ ! -e "$(dirname $0)/settings.env" ] && [ ! -e "$(dirname $0)/settings.env.default" ]; then
 	echo Must have a settings.env
 	exit 1
 fi
@@ -13,7 +13,11 @@ fi
 if [ ! -d "$1" ]; then
 	echo Creating work directory $1
 	mkdir -p $1/.status
-	cp $(dirname $0)/settings.env $1/.status/settings.env || exit $?
+	if [ -e "$(dirname $0)/settings.env" ]; then
+		cp $(dirname $0)/settings.env $1/.status/settings.env || exit $?
+	else
+		cp $(dirname $0)/settings.env.default $1/.status/settings.env || exit $?
+	fi
 fi
 
 pushd $1 >/dev/null
