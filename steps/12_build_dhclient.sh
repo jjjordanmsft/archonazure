@@ -32,7 +32,7 @@ case "$1" in
 		;;
 	clean)
 		$DOCKER_EXEC userdel build
-		$DOCKER_EXEC rm -rf /work/dhclient /work/dhclient-patch /var/lib/abs/extra
+		$DOCKER_EXEC rm -rf /work/dhclient /work/dhclient-patch
 		;;
 	*)
 		echo Should be invoked by build script!
