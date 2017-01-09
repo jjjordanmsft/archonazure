@@ -1,0 +1,19 @@
+diff -Naur dhcp-BASE-4.3.5/common/dispatch.c dhcp-4.3.5/common/dispatch.c
+--- dhcp-BASE-4.3.5/common/dispatch.c	2017-01-07 17:38:15.880659824 +0000
++++ dhcp-4.3.5/common/dispatch.c	2017-01-07 17:45:59.169406553 +0000
+@@ -338,8 +338,14 @@
+ 	 */
+ 	q->next  = timeouts;
+ 	timeouts = q;
++	
++	/* Hack ported from Fedora,
++	   see: http://pkgs.fedoraproject.org/cgit/rpms/dhcp.git/commit/?id=bd413ec3f9585ff8ccb8a5a66097fab53a8f5fe4
++	 */
++	if (sec > TIME_MAX)
++		sec = TIME_MAX - 9;
+ 
+-	isc_interval_set(&interval, sec & DHCP_SEC_MAX, usec * 1000);
++	isc_interval_set(&interval, sec, usec * 1000);
+ 	status = isc_time_nowplusinterval(&expires, &interval);
+ 	if (status != ISC_R_SUCCESS) {
+ 		/*

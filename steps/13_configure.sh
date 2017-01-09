@@ -2,16 +2,17 @@
 
 case "$1" in
 	desc)
-		echo Bootstrap image
+		echo Configure target system
 		;;
 	build)
 		# First copy bootstrap scripts
 		mkdir -p provision
-		cp ${SCRIPTDIR}/target/* provision
+		cp ${SCRIPTDIR}/target/* $DHCLIENT provision
 		
 		# Write settings
 		echo export LOOP_DEV=${LOOP_DEV} > provision/settings.sh
 		echo export LANG=${TARGET_LANG} >> provision/settings.sh
+		echo export DHCLIENT=$(basename $DHCLIENT) >> provision/settings.sh
 		
 		$DOCKER_EXEC cp -R /work/provision /mnt/opt || exit $?
 		$DOCKER_EXEC /bin/bash -c "chmod 755 /mnt/opt/provision/*.sh" || exit $?

@@ -36,10 +36,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 cat /etc/default/grub
 
 # Dependencies
-DEPS=(openssh wget unzip parted python python-setuptools net-tools)
-DEPS+=(util-linux sudo shadow sed grep iproute2 dhclient)
+DEPS=(openssh wget unzip parted net-tools)
+DEPS+=(util-linux sudo shadow sed grep iproute2)
 DEPS+=(python2 python2-virtualenv python2-setuptools)
 pacman --noconfirm -S ${DEPS[@]}
+
+# Install patched dhclient
+pacman --noconfirm -U /opt/provision/$DHCLIENT
 
 # WALinuxAgent, source should already be found at /opt/walinuxagent
 cd /opt/walinuxagent
