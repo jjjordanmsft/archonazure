@@ -12,11 +12,9 @@ case "$1" in
 		fi
 		
 		# Install build dependencies, dhclient source
-		$DOCKER_EXEC pacman -S --noconfirm base-devel abs iproute2 || exit $?
 		$DOCKER_EXEC abs extra/dhcp || exit $?
 		
-		# Create a user to perform the build, move source into that directory
-		$DOCKER_EXEC useradd build || exit $?
+		# Move source into separate directory accessible by 'build' user
 		$DOCKER_EXEC bash -c "mkdir /work/dhclient && chown build:build /work/dhclient" || exit $?
 		$DOCKER_EXEC su build -c "cp -R /var/abs/extra/dhcp/* /work/dhclient" || exit $?
 		
@@ -31,7 +29,6 @@ case "$1" in
 		echo export DHCLIENT=$WORKDIR/dhclient/$pkg >$STEP_OUT
 		;;
 	clean)
-		$DOCKER_EXEC userdel build
 		$DOCKER_EXEC rm -rf /work/dhclient /work/dhclient-patch
 		;;
 	*)

@@ -5,7 +5,7 @@ case "$1" in
 		echo Start Archlinux container
 		;;
 	build)
-		DOCKER_ID=$(docker run -dt --privileged -v ${WORKDIR}:/work archlinux:${ARCH_VERSION} /bin/bash)
+		DOCKER_ID=$(docker run -dt --privileged -v ${WORKDIR}:/work archbuilder:${ARCH_VERSION} /bin/bash)
 		echo export DOCKER_ID=${DOCKER_ID} >$STEP_OUT
 		printf "export DOCKER_EXEC=\\\"docker exec -it ${DOCKER_ID}\\\"\n" >>$STEP_OUT
 		;;
