@@ -2,7 +2,7 @@
 
 case "$1" in
 	desc)
-		echo Create customized builder container
+		echo Create customized builder image
 		;;
 	build)
 		# We could check for and skip this, but then we'd probably screw things up if
