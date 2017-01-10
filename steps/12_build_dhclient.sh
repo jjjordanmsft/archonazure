@@ -21,7 +21,7 @@ case "$1" in
 		$DOCKER_EXEC su build -c "cp -R /var/abs/extra/dhcp/* /work/dhclient" || exit $?
 		
 		# Copy in the patch (and get permissions correct)
-		cp -R $STEPSDIR/../dhclient $WORKDIR/dhclient-patch || exit $?
+		cp -R $STEPSDIR/dhclient $WORKDIR/dhclient-patch || exit $?
 		$DOCKER_EXEC su build -c "cp /work/dhclient-patch/* /work/dhclient" || exit $?
 		
 		# Build

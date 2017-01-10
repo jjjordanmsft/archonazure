@@ -7,7 +7,7 @@ case "$1" in
 	build)
 		# First copy bootstrap scripts
 		mkdir -p provision
-		cp ${SCRIPTDIR}/target/* $DHCLIENT provision
+		cp ${STEPSDIR}/target/* $DHCLIENT provision
 		
 		# Write settings
 		echo export LOOP_DEV=${LOOP_DEV} > provision/settings.sh
