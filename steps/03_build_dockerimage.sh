@@ -22,7 +22,7 @@ case "$1" in
 		cd archlinux-docker
 		rm -rf bootstrap.tar.gz
 		if [ -z "${REUSE_DOCKER_IMAGE}" ]; then
-			docker rmi archlinux
+			docker rmi archlinux:$ARCH_VERSION
 		fi
 		;;
 	*)

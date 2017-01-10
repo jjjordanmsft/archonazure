@@ -41,7 +41,8 @@ arch-chroot /mnt /bin/bash
 useradd -m <username>
 usermod -aG wheel <username>
 passwd <username>
-nano /etc/sudoers# uncomment "%wheel ALL=(ALL) ALL" line
+nano /etc/sudoers
+# uncomment "%wheel ALL=(ALL) ALL" line
 # drop back out to main shell
 bash build.sh <workdir>
 ```

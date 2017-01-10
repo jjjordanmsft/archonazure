@@ -26,7 +26,7 @@ case "$1" in
 		
 		# Build
 		$DOCKER_EXEC su build -c "cd /work/dhclient && makepkg -s -d --noconfirm --skippgpcheck" || exit $?
-		pkg=$(basename $(ls $WORKDIR/dhclient/dhclient-*.pkg.tar.xz))
+		pkg=$(basename $WORKDIR/dhclient/dhclient-*.pkg.tar.xz)
 		
 		echo export DHCLIENT=$WORKDIR/dhclient/$pkg >$STEP_OUT
 		;;

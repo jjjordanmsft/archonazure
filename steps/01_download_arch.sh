@@ -11,7 +11,7 @@ case "$1" in
 		echo export ARCH_VERSION=${VERSION} >$STEP_OUT
 		echo export ARCH_IMG=${ARCH_IMG} >>$STEP_OUT
 		
-		#docker images | grep -E "^archlinux\s+$VERSION" >/dev/null
+		# Check whether we've already built this Docker image
 		if docker images | grep -E "^archlinux\s+$VERSION" >/dev/null ; then
 			echo export REUSE_DOCKER_IMAGE=archlinux:$VERSION >>$STEP_OUT
 			echo Found docker image for $VERSION, skipping build
